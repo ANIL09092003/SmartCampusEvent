@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${event.name}">Event Detail</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="/">🎓 Smart Campus Events</a>
+        <a class="btn btn-outline-light btn-sm" href="/">← Back</a>
+    </div>
+</nav>
+<div class="container">
+    <div class="card p-4">
+        <div class="d-flex justify-content-between">
+            <span class="badge bg-primary" th:text="${event.type}"></span>
+            <span class="badge bg-secondary" th:text="${event.status}"></span>
+        </div>
+        <h2 class="mt-3" th:text="${event.name}"></h2>
+        <p class="text-muted" th:text="${event.description}"></p>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Department:</strong> <span th:text="${event.department}"></span></p>
+                <p><strong>Date:</strong> <span th:text="${event.date}"></span>
+                    <span th:if="${event.time}"> at <span th:text="${event.time}"></span></span></p>
+                <p><strong>Venue:</strong> <span th:text="${event.venue} ?: 'TBA'"></span></p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Ticket Price:</strong>
+                    <span th:text="${event.ticketPrice == 0} ? 'Free' : '₹' + ${event.ticketPrice}"></span></p>
+                <p><strong>Available:</strong>
+                    <span th:text="${event.availableTickets} + ' / ' + ${event.totalTickets}"></span></p>
+                <p><strong>Total Registrations:</strong> <span th:text="${regCount}"></span></p>
+            </div>
+        </div>
+        <div class="mt-3">
+            <a th:if="${event.availableTickets > 0}" th:href="@{/register/{id}(id=${event.id})}"
+               class="btn btn-primary btn-lg">Book Tickets</a>
+            <span th:unless="${event.availableTickets > 0}" class="btn btn-secondary btn-lg disabled">Sold Out</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
